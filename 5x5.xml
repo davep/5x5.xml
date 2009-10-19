@@ -156,7 +156,7 @@ gadgets.util.registerOnLoadHandler( init5x5 );
 <tr><td class="cellOff" id="cell40" onclick="cellClick( 4, 0 );"></td><td class="cellOff" id="cell41" onclick="cellClick( 4, 1 );"></td><td class="cellOff" id="cell42" onclick="cellClick( 4, 2 );"></td><td class="cellOff" id="cell43" onclick="cellClick( 4, 3 );"></td><td class="cellOff" id="cell44" onclick="cellClick( 4, 4 );"></td></tr>
 </table>
 <p id="resetButton">
-  <a href="#" onclick="resetGame();">Reset Game</a>
+  <a href="#" onclick="resetGame(); return false;">Reset Game</a>
 </p>
     ]]>
 
