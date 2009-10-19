@@ -131,8 +131,12 @@ function onCount( gameState )
 /* Update the display of number of moves. */
 function refreshMoves( gameState )
 {
-   document.getElementById( "moves" ).innerHTML = "After " + getMoves() +
-      " moves you've switched on " + onCount( gameState ) + " cells out of 25.";
+   var moves   = getMoves();
+   var moves_t = moves == 1 ? "move" : "moves";
+   
+   document.getElementById( "moves" ).innerHTML =
+      "After " + moves + " " + moves_t + " you've switched on " +
+      onCount( gameState ) + " cells out of 25.";
 }
 
 /* After the state has changed, refresh the display. */
