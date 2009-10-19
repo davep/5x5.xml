@@ -95,21 +95,27 @@ function gameState()
 }
 
 /* Set the state of a cell in the display. */
-function setCell( x, y, on )
+function setCell( row, col, on )
 {
-   document.getElementById( "cell" + x + y ).className = on ? "cellOn" : "cellOff";
+   document.getElementById( "cell" + row + col ).className = on ? "cellOn" : "cellOff";
+}
+
+/* Do Something for each cell in the game. */
+function forEachCell( f )
+{
+   for ( row = 0; row < 5; row++ )
+   {
+      for ( col = 0; col < 5; col++ )
+      {
+         f( row, col );
+      }
+   }
 }
 
 /* Refresh the grid based on the current game state. */
 function refreshGrid( gameState )
 {
-   for ( x = 0; x < 5; x++ )
-   {
-      for ( y = 0; y < 5; y++ )
-      {
-         setCell( x, y, gameState[ x ][ y ] );
-      }
-   }
+   forEachCell( function( row, col ) { setCell( row, col, gameState[ row ][ col ] ) } );
 }
 
 /* Update the display of number of moves. */
