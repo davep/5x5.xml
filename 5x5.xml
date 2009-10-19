@@ -155,6 +155,15 @@ function resetGame()
    wave.getState().submitDelta( { "game"  : wave.util.printJson( defaultGame() ),
                                   "moves" : "0" } );
 }
+
+/* Show some help. */
+function showHelp()
+{
+   alert( "The object of the game is to totally fill the grid with black squares. " +
+          "Clicking on a square results in that square (and those around it as " +
+          "seen in the initial pattern when you reset the game) toggling its colour.\n\n" +
+          "There is a solution in 14 moves. Can you find it without cheating?" )
+}
           
 /* Initialise the display. */
 function init5x5()
@@ -178,8 +187,8 @@ gadgets.util.registerOnLoadHandler( init5x5 );
 <tr><td class="cellOff" id="cell30" onclick="cellClick( 3, 0 );"></td><td class="cellOff" id="cell31" onclick="cellClick( 3, 1 );"></td><td class="cellOff" id="cell32" onclick="cellClick( 3, 2 );"></td><td class="cellOff" id="cell33" onclick="cellClick( 3, 3 );"></td><td class="cellOff" id="cell34" onclick="cellClick( 3, 4 );"></td></tr>
 <tr><td class="cellOff" id="cell40" onclick="cellClick( 4, 0 );"></td><td class="cellOff" id="cell41" onclick="cellClick( 4, 1 );"></td><td class="cellOff" id="cell42" onclick="cellClick( 4, 2 );"></td><td class="cellOff" id="cell43" onclick="cellClick( 4, 3 );"></td><td class="cellOff" id="cell44" onclick="cellClick( 4, 4 );"></td></tr>
 </table>
-<p id="resetButton">
-  <a href="#" onclick="resetGame(); return false;">Reset Game</a>
+<p id="buttons">
+  <a href="#" onclick="resetGame(); return false;">Reset Game</a>&nbsp;|&nbsp;<a href="#" onclick="showHelp(); return false;">Help</a>
 </p>
     ]]>
 
