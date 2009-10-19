@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+
+  <ModulePrefs 
+     title="5x5"
+     title_url="http://www.davep.org/misc/5x5/"
+     description="Simple little puzzle."
+     author="Dave Pearson"
+     author_email="davep@davep.org">
+    <Require feature="wave" /> 
+    <Require feature="dynamic-height" />
+  </ModulePrefs>
+
+  <Content type="html">
+
+    <![CDATA[     
+
+<style type="text/css">
+table.board5x5 {  
+  width: 262px;
+}
+
+td.cellOn {
+  width: 50px;
+  height: 50px;
+  background: black;
+  color: inherit;
+}
+
+td.cellOff {
+  width: 50px;
+  height: 50px;
+  background: #c0c0c0;
+  color: inherit;
+}
+</style>
+
+<script type="text/javascript" id="main-js">
+
+/* Get the number of moves. */
+function getMoves()
+{
+   if ( wave.getState() )
+   {
+      return parseInt( wave.getState().get( "moves", "0" ) );
+   }
+   else
+   {
+      return 0;
+   }
+}
+
+/* React to a cell click. */
+function cellClick( row, col )
+{
+   // Get the current state of play.
+   var game = gameState();
+
+   // Make the move.
+                 game[ row     ][ col     ] = !game[ row     ][ col     ];
+   if( row > 0 ) game[ row - 1 ][ col     ] = !game[ row - 1 ][ col     ];
+   if( row < 4 ) game[ row + 1 ][ col     ] = !game[ row + 1 ][ col     ];
+   if( col > 0 ) game[ row     ][ col - 1 ] = !game[ row     ][ col - 1 ];
+   if( col < 4 ) game[ row     ][ col + 1 ] = !game[ row     ][ col + 1 ];
+
+   // Write the state of play back to the Wave.
+   wave.getState().submitDelta( { "game"  : wave.util.printJson( game ),
+                                  "moves" : getMoves() + 1 } );
+}
+
+/* The initial state of a game. */          
+function defaultGame()
+{
+   return new Array(
+      new Array( false, false, false, false, false ),
+      new Array( false, false,  true, false, false ),
+      new Array( false,  true,  true,  true, false ),
+      new Array( false, false,  true, false, false ),
+      new Array( false, false, false, false, false ) );
+}
+
+/* Get the state for the current game. */
+function gameState()
+{
+   if ( wave.getState() )
+   {
+      var game = eval( "(" + wave.getState().get( "game", defaultGame() ) + ")" );
+      
+      return game ? game : defaultGame();
+   }
+   else
+   {
+      return defaultGame();
+   }
+}
+
+/* Set the state of a cell in the display. */
+function setCell( x, y, on )
+{
+   document.getElementById( "cell" + x + y ).className = on ? "cellOn" : "cellOff";
+}
+
+/* Refresh the grid based on the current game state. */
+function refreshGrid( gameState )
+{
+   for ( x = 0; x < 5; x++ )
+   {
+      for ( y = 0; y < 5; y++ )
+      {
+         setCell( x, y, gameState[ x ][ y ] );
+      }
+   }
+}
+
+/* Update the display of number of moves. */
+function refreshMoves()
+{
+   document.getElementById( "moves" ).innerHTML = "<strong>Moves:</strong> " + getMoves();
+}
+
+/* After the state has changed, refresh the display. */
+function stateUpdated()
+{
+   refreshGrid( gameState() );
+   refreshMoves();
+   gadgets.window.adjustHeight();
+}
+
+/* Reset the state of the game. */
+function resetGame()
+{
+   wave.getState().submitDelta( { "game"  : wave.util.printJson( defaultGame() ),
+                                  "moves" : "0" } );
+}
+          
+/* Initialise the display. */
+function init5x5()
+{
+   if ( wave && wave.isInWaveContainer() )
+   {
+      wave.setStateCallback( stateUpdated );
+   }
+
+   gadgets.window.adjustHeight();
+}
+
+gadgets.util.registerOnLoadHandler( init5x5 );
+</script>
+
+<p id="moves"></p>
+<table class="board5x5">
+<tr><td class="cellOff" id="cell00" onclick="cellClick( 0, 0 );"></td><td class="cellOff" id="cell01" onclick="cellClick( 0, 1 );"></td><td class="cellOff" id="cell02" onclick="cellClick( 0, 2 );"></td><td class="cellOff" id="cell03" onclick="cellClick( 0, 3 );"></td><td class="cellOff" id="cell04" onclick="cellClick( 0, 4 );"></td></tr>
+<tr><td class="cellOff" id="cell10" onclick="cellClick( 1, 0 );"></td><td class="cellOff" id="cell11" onclick="cellClick( 1, 1 );"></td><td class="cellOff" id="cell12" onclick="cellClick( 1, 2 );"></td><td class="cellOff" id="cell13" onclick="cellClick( 1, 3 );"></td><td class="cellOff" id="cell14" onclick="cellClick( 1, 4 );"></td></tr>
+<tr><td class="cellOff" id="cell20" onclick="cellClick( 2, 0 );"></td><td class="cellOff" id="cell21" onclick="cellClick( 2, 1 );"></td><td class="cellOff" id="cell22" onclick="cellClick( 2, 2 );"></td><td class="cellOff" id="cell23" onclick="cellClick( 2, 3 );"></td><td class="cellOff" id="cell24" onclick="cellClick( 2, 4 );"></td></tr>
+<tr><td class="cellOff" id="cell30" onclick="cellClick( 3, 0 );"></td><td class="cellOff" id="cell31" onclick="cellClick( 3, 1 );"></td><td class="cellOff" id="cell32" onclick="cellClick( 3, 2 );"></td><td class="cellOff" id="cell33" onclick="cellClick( 3, 3 );"></td><td class="cellOff" id="cell34" onclick="cellClick( 3, 4 );"></td></tr>
+<tr><td class="cellOff" id="cell40" onclick="cellClick( 4, 0 );"></td><td class="cellOff" id="cell41" onclick="cellClick( 4, 1 );"></td><td class="cellOff" id="cell42" onclick="cellClick( 4, 2 );"></td><td class="cellOff" id="cell43" onclick="cellClick( 4, 3 );"></td><td class="cellOff" id="cell44" onclick="cellClick( 4, 4 );"></td></tr>
+</table>
+<p id="resetButton">
+  <a href="#" onclick="resetGame();">Reset Game</a>
+</p>
+    ]]>
+
+  </Content>
+
+</Module>
