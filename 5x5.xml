@@ -118,17 +118,30 @@ function refreshGrid( gameState )
    forEachCell( function( row, col ) { setCell( row, col, gameState[ row ][ col ] ) } );
 }
 
-/* Update the display of number of moves. */
-function refreshMoves()
+/* Get the count of cells switched on. */
+function onCount( gameState )
 {
-   document.getElementById( "moves" ).innerHTML = "<strong>Moves:</strong> " + getMoves();
+   var count = 0;
+
+   forEachCell( function( row, col ) { if ( gameState[ row ][ col ] ) count++; } );
+   
+   return count;
+}
+          
+/* Update the display of number of moves. */
+function refreshMoves( gameState )
+{
+   document.getElementById( "moves" ).innerHTML = "After " + getMoves() +
+      " moves you've switched on " + onCount( gameState ) + " cells out of 25.";
 }
 
 /* After the state has changed, refresh the display. */
 function stateUpdated()
 {
-   refreshGrid( gameState() );
-   refreshMoves();
+   var game = gameState();
+   
+   refreshGrid( game );
+   refreshMoves( game );
    gadgets.window.adjustHeight();
 }
 
