@@ -1,0 +1,9 @@
+<extension 
+    name="5x5"
+    thumbnailUrl="http://serenity.davep.org/5x5/5x5-thumbnail.png"
+    description="Simple little puzzle."> 
+  <author name="Dave Pearson"/> 
+  <menuHook location="toolbar" text="Play 5x5" iconUrl="http://serenity.davep.org/5x5/5x5-icon.png"> 
+    <insertGadget url="http://serenity.davep.org/5x5/5x5.xml"/> 
+  </menuHook> 
+</extension> 
